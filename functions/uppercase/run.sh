@@ -28,6 +28,8 @@ for invoker in command java node; do
 
     # wait for function to build and deploy
     echo "Waiting for function to become ready"
+    timeout 120 sleep 999 &
+    timer_pid=$!
     until kube_ready \
       'pods' \
       'default' \
@@ -35,6 +37,7 @@ for invoker in command java node; do
       '{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status};{end}{end}' \
       'Ready=True' \
     ; do sleep 1; done
+    kill timer_pid
     # TODO reduce/eliminate this sleep
     sleep 10
 
