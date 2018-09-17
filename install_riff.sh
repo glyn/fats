@@ -3,7 +3,7 @@
 source ./util.sh
 source ./init.sh $CLUSTER
 
-go get github.com/projectriff/riff
+GO111MODULE=on go get github.com/projectriff/riff
 
 riff system install $SYSTEM_INSTALL_FLAGS
 fats_create_push_credentials default
